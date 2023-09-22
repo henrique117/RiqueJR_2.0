@@ -8,6 +8,7 @@ const gitEmbed = new EmbedBuilder()
     .setDescription('Esse é o meu projeto! Um Bot para Discord criado por mim, programado em JavaScript e com a biblioteca Discord.js. Atualmente estudante do curso de Ciência da Computação na UFLA')
     .setThumbnail('https://i.imgur.com/4zoexos.png')
     .setTimestamp()
+    .setFields({ name: '\u200B', value: '\u200B' })
     .setFooter({ text: 'Programado em JS - Henrique Assis Moreira' });
 
 module.exports = {
