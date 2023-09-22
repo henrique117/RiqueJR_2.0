@@ -2,21 +2,13 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
 const gitEmbed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle('Some title')
-    .setURL('https://discord.js.org/')
-    .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-    .setDescription('Some description here')
-    .setThumbnail('https://i.imgur.com/AfFp7pu.png')
-    .addFields(
-        { name: 'Regular field title', value: 'Some value here' },
-        { name: '\u200B', value: '\u200B' },
-        { name: 'Inline field title', value: 'Some value here', inline: true },
-        { name: 'Inline field title', value: 'Some value here', inline: true },
-    )
-    .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
-    .setImage('https://i.imgur.com/AfFp7pu.png')
+    .setTitle('Rique JR.')
+    .setURL('https://github.com/henrique117/RiqueJR_2.0')
+    .setAuthor({ name: 'Henrique Assis Moreira', iconURL: 'https://i.imgur.com/g24rn9u.jpg', url: 'https://github.com/henrique117' })
+    .setDescription('Esse é o meu projeto! Um Bot para Discord criado por mim, programado em JavaScript e com a biblioteca Discord.js. Atualmente estudante do curso de Ciência da Computação na UFLA')
+    .setThumbnail('https://i.imgur.com/4zoexos.png')
     .setTimestamp()
-    .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'Programado em JS - Henrique Assis Moreira' });
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,6 +16,6 @@ module.exports = {
         .setDescription('Meu código fonte atualmente! (Open source code)'),
 
     async execute(interaction) {
-        await interaction.reply('sexo!')
+        await interaction.reply({ embeds: [gitEmbed] })
     }
 }
