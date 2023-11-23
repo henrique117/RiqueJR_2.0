@@ -30,7 +30,7 @@ const rest = new REST({version: 10}).setToken(TOKEN);
 
         // PUT
         const data = await rest.put(
-            Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+            Routes.applicationCommands(CLIENT_ID),
             {body: commands}
         )
 
