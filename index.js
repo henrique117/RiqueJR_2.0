@@ -13,7 +13,13 @@ const internal = require('node:stream');
 const commandsPath = path.join(__dirname, "commands")
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [
+        GatewayIntentBits.Guilds, 
+        GatewayIntentBits.MessageContent, 
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+    ] 
+});
 
 client.commands = new Collection()
 
@@ -34,7 +40,14 @@ client.once(Events.ClientReady, c => {
 
 client.login(TOKEN);
 
-// Listenter
+// Listenters
+
+client.on('messageCreate', (message) => {
+    if(message.author.id == 168549251171876864) {
+        message.reply(message.content)
+    } else return
+})
+
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return
     const command = interaction.client.commands.get(interaction.commandName)
