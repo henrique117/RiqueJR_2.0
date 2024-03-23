@@ -1,4 +1,5 @@
-const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, Events, GatewayIntentBits, Collection } = require('discord.js')
+const database = require('./db/dbConection')
 
 // dotenv
 const dotenv = require('dotenv')
@@ -35,18 +36,11 @@ for (const file of commandFiles) {
 }
 
 client.once(Events.ClientReady, c => {
+    database.sync()
 	console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
 client.login(TOKEN);
-
-// Listenters
-
-client.on('messageCreate', (message) => {
-    if(message.author.id == 168549251171876864) {
-        message.reply(message.content)
-    } else return
-})
 
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return

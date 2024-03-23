@@ -99,7 +99,7 @@ module.exports = {
     async execute(interaction) {
         const palavra = interaction.options.getString('input')
 
-        if(palavra.split("").length != 3) {
+        if(palavra.split('').length != 3) {
             await interaction.reply('A palavra deve conter 3 letras! Perdão ainda não fiz com mais letras kk')
         } else {
             await interaction.reply(cript(palavra))
