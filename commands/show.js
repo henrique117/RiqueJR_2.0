@@ -9,10 +9,8 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.user
 
-        if(target.id === '520994132458471438') {
-            const userList = await Usuario.findAll({ attributes: ['nome', 'balance'] })
-            const userString = userList.map(u => u.nome + ' ' + u.balance).join('\n') || 'Não tem registros!'
-            interaction.reply(userString)
-        } else interaction.reply('Você não tem permissão pra usar esse comando')
+        const userList = await Usuario.findAll({ attributes: ['nome', 'balance'] })
+        const userString = userList.map(u => u.nome + ' - ' + u.balance + ' coins').join('\n') || 'Não tem registros!'
+        interaction.reply(userString)
     }
 }

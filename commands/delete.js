@@ -8,7 +8,7 @@ module.exports = {
         .addStringOption(option =>
             option.setName('id')
             .setDescription('ID do usuário que você deseja apagar')
-            .setRequired(false)),
+            .setRequired(true)),
 
     async execute(interaction) {
         const idToDelete = interaction.options.getString('id')
