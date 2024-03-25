@@ -14,6 +14,7 @@ module.exports = {
                 user_id: target.id,
                 nome: target.username,
                 balance: 500,
+                daily: true,
             })
             interaction.reply(`Usuário *${target.username}* registrado com sucesso!`)
         } catch (error) {

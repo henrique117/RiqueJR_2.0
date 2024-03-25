@@ -17,6 +17,11 @@ const Usuario = database.define('usuario', {
     balance: {
         type: Sequelize.INTEGER,
         allowNull: false,
+    },
+
+    daily: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
     }
 })
 

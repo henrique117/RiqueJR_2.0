@@ -22,14 +22,24 @@ module.exports = {
         const rowAdd = await Usuario.findOne({ where: { user_id: idToAdd.id } })
         const rowRemove = await Usuario.findOne({ where: { user_id: commandUser.id } })
         
-        if(rowAdd && rowRemove) {
-            const newAmountAdded = rowAdd.balance + parseInt(amountToTransfer)
-            const newAmountRemoved = rowRemove.balance - parseInt(amountToTransfer)
-
-            const adding = await Usuario.update({ balance: newAmountAdded }, { where: { user_id: idToAdd.id } })
-            const removing = await Usuario.update({ balance: newAmountRemoved }, { where: { user_id: commandUser.id } })
-
-            interaction.reply(`${amountToTransfer} coins foram tranferidos para *${rowAdd.nome}*`)
-        } else interaction.reply('Algum desses usuários não está cadastrado')
+        if(commandUser.id !== idToAdd.id) {
+            if(rowAdd && rowRemove) {
+                const newAmountAdded = rowAdd.balance + parseInt(amountToTransfer)
+                const newAmountRemoved = rowRemove.balance - parseInt(amountToTransfer)
+    
+                if(newAmountRemoved > 0) {
+                    const adding = await Usuario.update({ balance: newAmountAdded }, { where: { user_id: idToAdd.id } })
+                    const removing = await Usuario.update({ balance: newAmountRemoved }, { where: { user_id: commandUser.id } })
+    
+                    interaction.reply(`${amountToTransfer} coins foram tranferidos para *${rowAdd.nome}*`)
+                } else {
+                    interaction.reply('Você não tem coins o suficiente pra fazer a transação')
+                }
+            } else {
+                interaction.reply('Algum desses usuários não está cadastrado')
+            }
+        } else {
+            interaction.reply('Você não pode transferir coins pra você mesmo!')
+        }
     }
 }
