@@ -9,7 +9,10 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.user
 
-        const userList = await Usuario.findAll({ attributes: ['nome', 'balance'] })
+        const userList = await Usuario.findAll({ 
+            attributes: ['nome', 'balance'],
+            order: [['balance', 'DESC']]
+        })
         const userString = userList.map(u => u.nome + ' - ' + u.balance + ' coins').join('\n') || 'Não tem registros!'
         interaction.reply(userString)
     }
