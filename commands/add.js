@@ -27,7 +27,7 @@ module.exports = {
 
                 const adding = await Usuario.update({ balance: newAmount }, { where: { user_id: idToAdd.id } })
 
-                interaction.reply(`${amountToAdd} coins foram adicionados para *${row.nome}*`)
+                interaction.reply(`**${amountToAdd}** coins foram adicionados para *${row.nome}*`)
             }
 
         } else interaction.reply('Você não tem permissão pra usar esse comando')

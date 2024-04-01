@@ -46,46 +46,68 @@ client.once(Events.ClientReady, c => {
     console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-client.once(Events.ClientReady, async c => {
-    const hora = Data.getHours()
-    if (hora === 21 && resetado === false) {
-        const adding = await Usuario.update({ daily: true }, { where: { daily: false } })
-        resetado = true
-    }
+client.on(Events.MessageCreate, async c => {
+    if(c.author.bot !== true) {
+        const hora = Data.getHours()
+        if ((hora === 21 || hora === 9) && resetado === false) {
+            const adding = await Usuario.update({ daily: true }, { where: { daily: false } })
+            resetado = true
+        }
 
-    if (hora !== 21) {
-        resetado = false
-    }
-})
-
-client.on('messageCreate', async (message) => {
-    if (message.content === prefix + 'daily') {
-        try {
-            const user = message.author.id
-            const row = await Usuario.findOne({ where: { user_id: user } })
-            if (row.daily) {
-                const updatingDaily = await Usuario.update({ daily: false }, { where: { user_id: user } })
-                const adding = await Usuario.update({ balance: row.balance + 50 }, { where: { user_id: user } })
-
-                message.reply('Você recebeu **50** coins diários! Volte novamente no dia seguinte para resgatar de novo')
-            } else {
-                message.reply('Você já resgatou sua recompensa do dia!')
-            }
-        } catch (error) {
-            console.error(error)
-            message.reply('Você precisa se registrar para realizar essa ação!')
+        if (hora !== 21) {
+            resetado = false
         }
     }
 })
 
 client.on('messageCreate', async (message) => {
-    if (message.content.startsWith(prefix + 'tigrinho')) {
+    if (message.content.toLocaleLowerCase() === prefix + 'daily' && message.author.bot !== true) {
+        try {
+            const user = message.author.id
+            const row = await Usuario.findOne({ where: { user_id: user } })
+            if (row.daily) {
+                const updatingDaily = await Usuario.update({ daily: false }, { where: { user_id: user } })
+                const adding = await Usuario.update({ balance: row.balance + 200 }, { where: { user_id: user } })
+
+                message.reply('Você recebeu **200 coins!**, volte novamente mais tarde para pegar o próximo bônus!')
+            } else {
+                message.reply('Você já resgatou sua recompensa do dia!')
+            }
+        } catch (error) {
+            console.error(error)
+            message.reply('Você precisa se registrar para realizar essa ação! Se registre usando **/register**')
+        }
+    }
+})
+
+// var tries = 0
+
+client.on('messageCreate', async (message) => {
+
+    /* function findOut() {
+        const random = Math.random() * 100
+        tries++
+        if (random <= 100 && random >= 99.9){
+            message.reply(`Gastei ${tries} rolls para acertar o 20x`)
+            tries = 0
+        } else findOut()
+    }
+
+    if(message.content === (prefix + 'teste')) {
+        findOut()
+    } */
+
+    if (message.content.toLocaleLowerCase().startsWith(prefix + 'tigrinho') && message.author.bot !== true) {
         try {
             const randomNum = Math.random() * 100
             const whichValue = message.content.split(' ')
 
             try {
                 const bet = parseInt(whichValue[1])
+                if(bet < 10) {
+                    message.reply('Aposta mínima de **10 coins**')
+                    return
+                }
                 if(bet > 0) {
                     const user = message.author.id
                     const row = await Usuario.findOne({ where: { user_id: user } })

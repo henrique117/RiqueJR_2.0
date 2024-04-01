@@ -27,7 +27,7 @@ module.exports = {
 
                 const removing = await Usuario.update({ balance: newAmount }, { where: { user_id: idToRemove.id } })
 
-                interaction.reply(`${amountToRemove} coins foram removidos de *${row.nome}*`)
+                interaction.reply(`**${amountToRemove}** coins foram removidos de *${row.nome}*`)
             }
 
         } else interaction.reply('Você não tem permissão pra usar esse comando')
