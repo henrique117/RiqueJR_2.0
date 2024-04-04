@@ -2,7 +2,6 @@ const { Client, Events, GatewayIntentBits, Collection } = require('discord.js')
 const database = require('./db/dbConection')
 const Usuario = require('./models/Usuario')
 const prefix = '$'
-const Data = new Date()
 var resetado = false
 
 // dotenv
@@ -48,6 +47,7 @@ client.once(Events.ClientReady, c => {
 
 client.on(Events.MessageCreate, async c => {
     if(c.author.bot !== true) {
+        const Data = new Date()
         const hora = Data.getHours()
         if ((hora === 21 || hora === 9) && resetado === false) {
             const dailyReset = await Usuario.update({ daily: true }, { where: { daily: false } })
