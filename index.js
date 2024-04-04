@@ -3,7 +3,7 @@ const database = require('./db/dbConection')
 const Usuario = require('./models/Usuario')
 const prefix = '$'
 const Data = new Date()
-var resetado = true
+var resetado = false
 
 // dotenv
 const dotenv = require('dotenv')
@@ -50,7 +50,7 @@ client.on(Events.MessageCreate, async c => {
     if(c.author.bot !== true) {
         const hora = Data.getHours()
         if ((hora === 21 || hora === 9) && resetado === false) {
-            const adding = await Usuario.update({ daily: true }, { where: { daily: false } })
+            const dailyReset = await Usuario.update({ daily: true }, { where: { daily: false } })
             resetado = true
         }
 
