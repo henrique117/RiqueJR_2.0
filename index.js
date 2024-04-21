@@ -46,6 +46,9 @@ client.once(Events.ClientReady, c => {
 });
 
 client.on(Events.MessageCreate, async c => {
+    if(c.author.bot === false && c.content === 'o/') {
+        c.reply('o/')
+    }
     if(c.author.bot !== true) {
         const Data = new Date()
         const hora = Data.getHours()
