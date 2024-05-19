@@ -3,7 +3,7 @@ const Usuario = require('../models/Usuario')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('transfer')
+        .setName('pix')
         .setDescription('Transfere coins para um usuário')
         .addUserOption(option =>
             option.setName('id')

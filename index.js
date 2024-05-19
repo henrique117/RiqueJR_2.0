@@ -57,7 +57,7 @@ client.on(Events.MessageCreate, async c => {
             resetado = true
         }
 
-        if (hora !== 21) {
+        if (hora !== 21 && hora !== 9) {
             resetado = false
         }
     }
