@@ -1,10 +1,11 @@
-const { Client, Events, GatewayIntentBits, Collection } = require('discord.js')
-const database = require('./db/dbConection')
-const Usuario = require('./models/Usuario')
-const prefix = '$'
-var resetado = false
+const { Client, Events, GatewayIntentBits, Collection } = require('discord.js') // Imports from Discord.js
+const database = require('./db/dbConection') // My DB conection
+const Usuario = require('./models/Usuario') // DB model import
+const prefix = '$' // The prefix used in the commands
+var resetado = false // To check daily
 
 // dotenv
+
 const dotenv = require('dotenv')
 dotenv.config()
 const { TOKEN, CLIENT_ID, GUILD_ID } = process.env
@@ -18,6 +19,8 @@ const { stringify } = require('node:querystring')
 const commandsPath = path.join(__dirname, "commands")
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
+// Organizing the Discord client intents
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -26,6 +29,8 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
     ]
 });
+
+// Importing the SlashCommands of the bot
 
 client.commands = new Collection()
 
@@ -40,35 +45,59 @@ for (const file of commandFiles) {
     }
 }
 
+// Show on the console the bot Logging in
+
 client.once(Events.ClientReady, c => {
     database.sync()
     console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
+// Message capture event
+
 client.on(Events.MessageCreate, async c => {
+
+    // Simple command to reply every 'o/' with another 'o/'
+
     if(c.author.bot === false && c.content === 'o/') {
         c.reply('o/')
     }
+
+    // This one check the hour in each message sent on the channels
+
     if(c.author.bot !== true) {
         const Data = new Date()
         const hora = Data.getHours()
+
+        // If the time is 9am or 9pm, the command '$daily' is reseted and you can redeem it again
+
         if ((hora === 21 || hora === 9) && resetado === false) {
             const dailyReset = await Usuario.update({ daily: true }, { where: { daily: false } })
-            resetado = true
+            resetado = true // Just to reset once
         }
 
         if (hora !== 21 && hora !== 9) {
-            resetado = false
+            resetado = false // If it's not 9am or 9pm the variable 'resetado' turns false again to reset again later
         }
     }
 })
 
+// The daily command itself, used to give a bonus of 200 coins every 12 hours for anyone who redeems it
+
 client.on('messageCreate', async (message) => {
+
+    // Check the message content and if it's not a bot sending it
+
     if (message.content.toLocaleLowerCase() === prefix + 'daily' && message.author.bot !== true) {
         try {
             const user = message.author.id
-            const row = await Usuario.findOne({ where: { user_id: user } })
+            const row = await Usuario.findOne({ where: { user_id: user } }) // Getting the user info on the DB
+
+            // Check if the 'daily' is avaible to the user
+
             if (row.daily) {
+
+                // Giving the 200 bonus to the user and changing the daily check to false
+
                 const updatingDaily = await Usuario.update({ daily: false }, { where: { user_id: user } })
                 const adding = await Usuario.update({ balance: row.balance + 200 }, { where: { user_id: user } })
 
@@ -83,9 +112,11 @@ client.on('messageCreate', async (message) => {
     }
 })
 
-// var tries = 0
+// The famous command in the bot, just some betting stuff called 'Tigrinho' that you can spend your coins trying to get lucky and be the richest user in the list
 
 client.on('messageCreate', async (message) => {
+
+    // That commented function down here is just a simple test that i used to figure out how many times average you have to use the '$tigrinho' command to get the biggest award
 
     /* function findOut() {
         const random = Math.random() * 100
@@ -100,27 +131,43 @@ client.on('messageCreate', async (message) => {
         findOut()
     } */
 
+    // Checking the message to start the command and if the message author isn't a bot
+
     if (message.content.toLocaleLowerCase().startsWith(prefix + 'tigrinho') && message.author.bot !== true) {
         try {
-            const randomNum = Math.random() * 100
-            const whichValue = message.content.split(' ')
+            const randomNum = Math.random() * 100 // Sorting a real number between 1 and 100
+            const whichValue = message.content.split(' ') // Spliting the message in 2 parts to get the value of the bet
 
             try {
-                const bet = parseInt(whichValue[1])
+                const bet = parseInt(whichValue[1]) // Putting the bet value into the const 'bet'
+
+                // Checking if the bet is higher than the minimum amount of the bet, which is 10
+                
                 if(bet < 10) {
                     message.reply('Aposta mínima de **10 coins**')
                     return
                 }
-                if(bet > 0) {
+
+                if(bet > 0) { // Useless if my bad
+
+                    // Getting the user infos of the DB
+
                     const user = message.author.id
                     const row = await Usuario.findOne({ where: { user_id: user } })
 
+                    // Checking if the user has the bet value in his balance to bet
+
                     if (row.balance - bet >= 0) {
+
+                        // Removing the coins of the bet from the wallet
+
                         const betting = await Usuario.update({ balance: row.balance - bet }, { where: { user_id: user } })
                         const newRowBalance = await Usuario.findOne({ where: { user_id: user } })
 
+                        // That entire block of code is to check the random number generated before and giving the user the bounties of the bet
+
                         if (randomNum < 35) {
-                            message.reply('Vish ce sifudeu e perdeu tudo')
+                            message.reply('Vish ce sifudeu e perdeu tudo') // That's the only case which the user lost all the coins he betted
                         } else if (randomNum < 55 && randomNum >= 35) {
                             const adding = await Usuario.update({ balance: newRowBalance.balance + bet * 1.1 }, { where: { user_id: user } })
                             message.reply(`Nice mlk, ganhou **${parseInt(bet * 1.1)} coins**, 1.1x suave`)
@@ -169,7 +216,11 @@ client.on('messageCreate', async (message) => {
     }
 })
 
+// Make the bot login in the Discord server with the bot token
+
 client.login(TOKEN);
+
+// Catching the SlashCommands used by the user
 
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return

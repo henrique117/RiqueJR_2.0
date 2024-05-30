@@ -1,4 +1,8 @@
+// Import
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+
+// This command is used to show the public repository of this bot to the community!
 
 const gitEmbed = new EmbedBuilder()
     .setColor(0x0099FF)

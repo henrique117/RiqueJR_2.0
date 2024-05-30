@@ -1,4 +1,8 @@
+// Imports
+
 const { SlashCommandBuilder } = require('discord.js')
+
+// Ping... Pong!
 
 module.exports = {
     data: new SlashCommandBuilder()

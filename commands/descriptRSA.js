@@ -1,8 +1,8 @@
+// Import
+
 const { SlashCommandBuilder } = require('discord.js')
 
-/* const dotenv = require('dotenv')
-dotenv.config()
-const { P1, P2 } = process.env */
+// This command is used to decript, using RSA as well, every 3 numbers combination, cripted using the same method and numbers. Check out the 'criptRSA' code as well! :)
 
 const P1 = 7
 const P2 = 5
@@ -10,9 +10,13 @@ const Inv = 7
 
 const n = P1*P2
 
+// Decript function
+
 function descriptografar(x) {
     return (Math.pow(x, Inv) % n)
 }
+
+// Function to convert the numbers into letters
 
 function converter(x) {
     switch (x) {
@@ -71,6 +75,8 @@ function converter(x) {
     }
 }
 
+// Function to call the other ones and decript the numbers putting them into a string to return
+
 function descript (code) {
 
     const codigo = code;
@@ -93,6 +99,8 @@ module.exports = {
             option.setName('input')
             .setDescription('Insira o código separando o bloco por "-" para decodificá-las')
             .setRequired(true)),
+
+// Getting the input into the constant to work with
 
     async execute(interaction) {
         const code = interaction.options.getString('input')

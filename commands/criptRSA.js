@@ -1,17 +1,23 @@
+// Import
+
 const { SlashCommandBuilder } = require('discord.js')
 
-/* const dotenv = require('dotenv')
-dotenv.config()
-const { P1, P2 } = process.env */
+// This is just a simple command for school stuff that i made for fun. It cripts any 3 letters messages using the RSA method
+
+// The "secret" numbers used to cript
 
 const P1 = 7
 const P2 = 5
 
 const n = P1*P2
 
+// Cript function
+
 function criptografar(x) {
     return ((Math.pow(x, P1)) % n)
 }
+
+// Convert the letters into numbers
 
 function converter(x) {
     switch (x) {
@@ -72,7 +78,7 @@ function converter(x) {
     }
 }
 
-// Usar apenas Letras maiúsculas
+// Apply the convertion and the cript function to the word, also they now always in upper case
 
 function cript (word) {
     const palavra = word
@@ -85,8 +91,6 @@ function cript (word) {
     return (`${letrasCrip[0]}-${letrasCrip[1]}-${letrasCrip[2]}`)
 }
 
-
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('criptografar')
@@ -96,8 +100,12 @@ module.exports = {
             .setDescription('Insira 3 letras para codificá-las')
             .setRequired(true)),
 
+// Getting the 3 letter word of the input
+
     async execute(interaction) {
         const palavra = interaction.options.getString('input')
+
+        // Split the string into a 3 caracter vector
 
         if(palavra.split('').length != 3) {
             await interaction.reply('A palavra deve conter 3 letras! Perdão ainda não fiz com mais letras kk')

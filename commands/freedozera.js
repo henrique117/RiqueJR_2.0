@@ -1,4 +1,8 @@
+// Import
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+
+// This one is useful, i just made it to learn about Discord embeds
 
 const docEmbed = new EmbedBuilder()
     .setColor(0x0099FF)
