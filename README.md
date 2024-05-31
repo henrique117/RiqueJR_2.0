@@ -51,5 +51,15 @@
   - That's the most exciting part of this project, I've coded 2 simple games to play and spend your coins in bets, for you try to multiply your coins and be the top 1 in the list:
 
    + ### "The Tigrinho":
+     
      - This one works pretty simple, you have a chance of multiply your coins betted in the game, not a big deal, just by typing <code>**$tigrinho {value}**</code> you can bet any amount to try to multiply it:
+       
+       ![image](https://github.com/henrique117/RiqueJR_2.0/assets/86057591/328daa1a-62e5-4456-b3d9-b53367e921f5)
+
+     - The chances of multiply or lose your coins is updated in the command <code>/tabela</code>, which is an embed showing the chances of winning any multiplier.
+    
+   + ### Russian Roulette:
+     
+     - The most complex part of my project yet, it's a Russian Roulette game that consists in a 6 bullets gun with one of them being a real one and the other 5 are fake bullets, you can shoot or not, you choose it by clicking in the buttons <code>Continuar</code> to shoot or the <code>Cancelar</code> button to stop playing the game and get what you have in the game:
+    
        
