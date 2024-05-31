@@ -1,4 +1,8 @@
+// Imports
+
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
+
+// This command is not finished yet, so i'm not gonna comment this by now, but the main thing here is a user be able to create a bet where the other users can use it
 
 module.exports = {
     data: new SlashCommandBuilder()

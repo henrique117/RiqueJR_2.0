@@ -1,5 +1,9 @@
+// Imports
+
 const Sequelize = require('sequelize')
-const database = require('../db/dbConection')
+const database = require('../db/dbConnection')
+
+// This is the modal 'Usuario' of the DataBase, that's the only table in the DB for now
 
 const Usuario = database.define('usuario', {
     user_id: {

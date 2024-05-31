@@ -3,6 +3,8 @@ const dotenv = require('dotenv')
 dotenv.config()
 const { DATABASE, USER, DB_PASSWORD } = process.env
 
+// Just the DB connection
+
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize( DATABASE, USER, DB_PASSWORD, {
     dialect: 'mysql',

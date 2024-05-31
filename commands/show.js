@@ -1,5 +1,9 @@
+// Imports
+
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+
+// Since we got 37 users in the bot, i'll have to change this one in the next patch, i'll comment that later, but for now it shows a list of all the players in the bot
 
 module.exports = {
     data: new SlashCommandBuilder()

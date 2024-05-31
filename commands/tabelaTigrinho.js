@@ -1,4 +1,8 @@
+// Import
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+
+// Pretty simple, just a embed with the odds in the game 'Tigrinho'
 
 const tigrinhoEmbed = new EmbedBuilder()
     .setColor(0xFFA500)
