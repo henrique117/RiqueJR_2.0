@@ -70,8 +70,8 @@
 
   - All the code is open-source since I used it for study and personal improvement. I am a Computer Science student working on my degree. If anyone has any comments about the code and how I can improve it, feel free to DM me on my social media:
  
-    + #### Instagram: @henrique_moreira177
-    + #### Twitter: @henr1que177
+    + #### Instagram: [@henrique_moreira177](https://www.instagram.com/henrique_moreira177/)
+    + #### Twitter: [@henr1que177](https://x.com/henr1que177)
     + #### Discord: iccy11706 (Feel free to send a friend request :D)
    
   ## Bot Invite:
