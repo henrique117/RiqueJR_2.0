@@ -73,6 +73,7 @@
     + #### Instagram: [@henrique_moreira177](https://www.instagram.com/henrique_moreira177/)
     + #### Twitter: [@henr1que177](https://x.com/henr1que177)
     + #### Discord: iccy11706 (Feel free to send a friend request :D)
+    + #### Linkedin: [Henrique Moreira](https://www.linkedin.com/in/henrique-moreira-274b8027b/)
    
   ## Bot Invite:
 
