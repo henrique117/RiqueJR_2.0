@@ -1,4 +1,4 @@
-# RIQUE JR (Official Release)
+# RIQUE JR (Beta Version)
 
 > Status: Developing
 
