@@ -79,4 +79,10 @@
 
   - Since this bot is in a development state, please be patient with it. If you want to try using it, it will be glad to join your server! You can invite it by clicking [here!](https://discord.com/oauth2/authorize?client_id=875759536131145738&permissions=8&scope=bot)
 
+  ## Patch Notes (1.3 - 03/06)
+
+  - New command added: <code>/update</code>: This command updates your nickname in the table if you have changed it on Discord.
+
+  - AuditLog: Now that I've allowed others to add the bot to their servers, I felt the need to know what is happening with the bot even when I'm not in the server. Therefore, I created a table that stores the history of actions performed by Rique Jr.
+
 #### Coded by Henrique Assis Moreira, Computer Science Student at UFLA
