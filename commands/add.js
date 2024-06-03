@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+const AuditLog = require('../models/AuditLog')
 
 // This command is used to add coins to any user by they Discord ID, just me can use it
 
@@ -35,6 +36,17 @@ module.exports = {
                 const newAmount = row.balance + parseInt(amountToAdd)
 
                 const adding = await Usuario.update({ balance: newAmount }, { where: { user_id: idToAdd.id } }) // Editing the balance column of the user with the new value
+
+                // Create a new register in the AuditLog table
+
+                const noteAudit = await AuditLog.create({
+                    userSenderID: commandUser.id,
+                    userSenderName: commandUser.username,
+                    userReceiverID: idToAdd.id,
+                    userReceiverName: idToAdd.username,
+                    action: 'Add',
+                    quantity: amountToAdd,
+                })
 
                 interaction.reply(`**${amountToAdd}** coins foram adicionados para *${row.nome}*`)
             }

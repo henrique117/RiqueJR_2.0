@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+const AuditLog = require('../models/AuditLog')
 
 // This command is used to delete any user from the DB using the discord ID as a key to delete, also just me can use it
 
@@ -24,8 +25,21 @@ module.exports = {
 
         if(target.id === '520994132458471438') {
             const deleteRow = await Usuario.destroy({ where: { user_id: idToDelete } }) // Deleting the user from DB
-            if (!deleteRow) return interaction.reply('Esse ID não existe na tabela') // Return if the user ID don't exists
-            return interaction.reply('Registro deletado')
+            if (!deleteRow) {
+                return interaction.reply('Esse ID não existe na tabela') // Return if the user ID don't exists
+            } else {
+
+                // Create a new register in the AuditLog table
+                
+                const noteAudit = await AuditLog.create({
+                    userSenderID: target.id,
+                    userSenderName: target.username,
+                    userReceiverID: idToDelete.id,
+                    userReceiverName: idToDelete.username,
+                    action: 'Delete',
+                })
+                return interaction.reply('Registro deletado')
+            }
         } else interaction.reply('Você não tem permissão pra usar esse comando')
     }
 }

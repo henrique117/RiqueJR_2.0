@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+const AuditLog = require('../models/AuditLog')
 
 // This command is similar to the 'add' comand, but this time just add any ammount to every bot user, just me can use it
 
@@ -37,6 +38,15 @@ module.exports = {
                 const newAmount = u.balance + parseInt(bonusToAdd)
                 const adding = await Usuario.update({ balance: newAmount }, { where: { user_id: u.user_id } })
             });
+
+            // Create a new register in the AuditLog table
+
+            const noteAudit = await AuditLog.create({
+                userSenderID: target.id,
+                userSenderName: target.username,
+                action: 'Bonus',
+                quantity: bonusToAdd,
+            })
 
             interaction.reply(`Todos receberam **${bonusToAdd} coins**!! Perdão pelo tempo fora`)
 

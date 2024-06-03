@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+const AuditLog = require('../models/AuditLog')
 
 // This is pretty simple, just the command for the discord user connect his discord ID and name to the bot DB, with that, the user can use all the other coins commands
 
@@ -25,6 +26,15 @@ module.exports = {
                 balance: 500, // Starter amount of coins
                 daily: true,
             })
+
+            // Create a new register in the AuditLog table
+
+            const noteAudit = await AuditLog.create({
+                userSenderID: target.id,
+                userSenderName: target.username,
+                action: 'Register',
+            })
+
             interaction.reply(`Usuário *${target.username}* registrado com sucesso!`)
         } catch (error) {
             console.error(error)

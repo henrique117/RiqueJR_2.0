@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+const AuditLog = require('../models/AuditLog')
 
 // This command is kinda cool, is used to a bot user transfer any amount of coins to another bot user
 
@@ -52,6 +53,17 @@ module.exports = {
 
                         const adding = await Usuario.update({ balance: newAmountAdded }, { where: { user_id: idToAdd.id } })
                         const removing = await Usuario.update({ balance: newAmountRemoved }, { where: { user_id: commandUser.id } })
+
+                        // Create a new register in the AuditLog table
+
+                        const noteAudit = await AuditLog.create({
+                            userSenderID: commandUser.id,
+                            userSenderName: commandUser.username,
+                            userReceiverID: idToAdd.id,
+                            userReceiverName: idToAdd.username,
+                            action: 'Transfer',
+                            quantity: amountToTransfer,
+                        })
         
                         interaction.reply(`${parseInt(amountToTransfer)} coins foram tranferidos para *${rowAdd.nome}*`)
                     } else {

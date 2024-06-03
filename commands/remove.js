@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 const Usuario = require('../models/Usuario')
+const AuditLog = require('../models/AuditLog')
 
 // This command is used to remove coins from any user, the opposite of the 'add' command. Just me can use it
 
@@ -37,6 +38,17 @@ module.exports = {
                 const newAmount = row.balance - parseInt(amountToRemove)
 
                 const removing = await Usuario.update({ balance: newAmount }, { where: { user_id: idToRemove.id } }) // Removing coing in the DB
+
+                // Create a new register in the AuditLog table
+                
+                const noteAudit = await AuditLog.create({
+                    userSenderID: commandUser.id,
+                    userSenderName: commandUser.username,
+                    userReceiverID: idToRemove.id,
+                    userReceiverName: idToRemove.username,
+                    action: 'Remove',
+                    quantity: amountToRemove,
+                })
 
                 interaction.reply(`**${amountToRemove}** coins foram removidos de *${row.nome}*`)
             }

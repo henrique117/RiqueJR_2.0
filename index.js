@@ -1,6 +1,7 @@
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js') // Imports from Discord.js
 const database = require('./db/dbConnection') // My DB conection
-const Usuario = require('./models/Usuario') // DB model import
+const Usuario = require('./models/Usuario') // DB models imports
+const AuditLog = require('./models/AuditLog')
 const prefix = '$' // The prefix used in the commands
 var resetado = false // To check daily
 

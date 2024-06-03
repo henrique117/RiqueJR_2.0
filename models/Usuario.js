@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize')
 const database = require('../db/dbConnection')
 
-// This is the modal 'Usuario' of the DataBase, that's the only table in the DB for now
+// This is the table 'Usuario' of the DataBase
 
 const Usuario = database.define('usuario', {
     user_id: {
