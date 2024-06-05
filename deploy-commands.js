@@ -3,7 +3,7 @@ const { REST, Routes } = require('discord.js')
 // dotenv
 const dotenv = require('dotenv')
 dotenv.config()
-const { TOKEN, CLIENT_ID, GUILD_ID } = process.env
+const { TOKEN, CLIENT_ID } = process.env
 
 // Commands Import
 const fs = require('node:fs')
