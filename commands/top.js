@@ -5,7 +5,7 @@ const Usuario = require('../models/Usuario')
 const pagination = require('../functions/pagination')
 const embedBuilderTop = require('../functions/embedBuilderTop')
 
-// Since we got 44 users in the bot!!! I'll have to change this one in the next patch, I'll comment that later, but for now it shows a list of all the players in the bot
+// Since we got 45 users in the bot!!! I'll have to change this one in the next patch, I'll comment that later, but for now it shows a list of all the players in the bot
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -33,7 +33,7 @@ module.exports = {
         var cont = 0
 
         var pagesVector = []
-        var embedVector = []
+        var embedVector = [0,0,0,0,0,0,0,0,0,0]
         
         for(let i = 0; i < pages; i++) {
             if (i == pages - 1) {

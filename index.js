@@ -1,4 +1,4 @@
-const { Client, Events, GatewayIntentBits, Collection } = require('discord.js') // Imports from Discord.js
+const { Client, Events, GatewayIntentBits, Collection, Partials } = require('discord.js') // Imports from Discord.js
 const database = require('./db/dbConnection') // My DB conection
 const Usuario = require('./models/Usuario') // DB models imports
 const AuditLog = require('./models/AuditLog')
@@ -28,6 +28,12 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+    ],
+    partials: [
+        Partials.Message,
+        Partials.Channel,
+        Partials.Reaction
     ]
 });
 
@@ -63,6 +69,10 @@ client.on(Events.MessageCreate, async c => {
         c.reply('o/')
     }
 
+    if(c.author.bot === false && c.content === prefix + 'baiano') {
+        c.reply('Hello World')
+    }
+
     // This one check the hour in each message sent on the channels
 
     if(c.author.bot !== true) {
@@ -81,6 +91,20 @@ client.on(Events.MessageCreate, async c => {
         }
     }
 })
+
+client.on(Events.MessageReactionAdd, async (reaction, user) => {
+	// When a reaction is received, check if the structure is partial
+	if (reaction.partial) {
+		// If the message this reaction belongs to was removed, the fetching might result in an API error which should be handled
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error(error);
+			// Return as `reaction.message.author` may be undefined/null
+			return;
+		}
+	}
+});
 
 // The daily command itself, used to give a bonus of 200 coins every 12 hours for anyone who redeems it
 
