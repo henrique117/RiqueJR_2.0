@@ -30,7 +30,7 @@ module.exports = {
         const commandUser = interaction.user
         const target = interaction.options.getUser('opponent')
         const bo = parseInt(interaction.options.getString('bo'))
-        const time = 10_000
+        const time = 5_000
 
         const Rock = new ButtonBuilder()
             .setCustomId('rock')
@@ -86,20 +86,20 @@ module.exports = {
                             collector.on('collect', async i => {
                                 if (i.user.id !== target.id || i.user.id !== commandUser.id) return await i.reply({ content: 'Você não pode usar esse botão', ephemeral: true })
         
-                                if(player1choice == 0) {
-                                    if(i.customId == 'pedra') {
+                                if(player1choice == 0 && i.user.id == commandUser.id) {
+                                    if(i.customId == 'rock') {
                                         player1choice = 1
-                                    } else if(i.customId == 'papel') {
+                                    } else if(i.customId == 'paper') {
                                         player1choice = 2
                                     } else {
                                         player1choice = 3
                                     }
                                 } else await i.reply({ content: 'Você já escolheu uma opção para essa rodada!', ephemeral: true })
         
-                                if(player2choice == 0) {
-                                    if(i.customId == 'pedra') {
+                                if(player2choice == 0 && i.user.id == target.id) {
+                                    if(i.customId == 'rock') {
                                         player2choice = 1
-                                    } else if(i.customId == 'papel') {
+                                    } else if(i.customId == 'paper') {
                                         player2choice = 2
                                     } else {
                                         player2choice = 3
@@ -110,14 +110,20 @@ module.exports = {
 
                             if(player1choice == player2choice) {
                                 await message.channel.send('Empatou essa rodada!').then(info => setTimeout(async () => await info.delete(), 2_000))
+                                player1choice = 0
+                                player2choice = 0
                             } else if ((player1choice == 1 && player2choice == 3) || (player1choice == 2 && player2choice == 1) || (player1choice == 3 && player2choice == 2)) {
                                 await message.channel.send(`${commandUser.username} ganhou essa rodada!`).then(info => setTimeout(async () => await info.delete(), 2_000))
                                 points[0]++
                                 cont++
+                                player1choice = 0
+                                player2choice = 0
                             } else if ((player1choice == 3 && player2choice == 1) || (player1choice == 1 && player2choice == 2) || (player1choice == 2 && player2choice == 3)) {
                                 await message.channel.send(`${target.username} ganhou essa rodada!`).then(info => setTimeout(async () => await info.delete(), 2_000))
                                 points[1]++
                                 cont++
+                                player1choice = 0
+                                player2choice = 0
                             }
 
                             collector.on('end', async () => {
