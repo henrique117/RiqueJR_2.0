@@ -25,6 +25,8 @@ module.exports = {
             const firstBet = betValue // Saving that for later
             const playerId = interaction.user.id
 
+            // if(playerId !== '520994132458471438') return await interaction.reply({content: 'Calma la parcinha esse comando ta em manutenção', ephemeral: true})
+
             const playerRow = await Usuario.findOne({ where: { user_id: playerId } }) // Getting the player DB infos
 
             var bananas = [':banana:', ':banana:', ':banana:', ':banana:', ':banana:', ':banana:'] // Create the template of the 6 bullets (Yes. They are bananas.)
@@ -76,7 +78,7 @@ module.exports = {
 
                 var bullets = [0, 0, 0, 0, 0, 0] // The logical vector of the bullets
 
-                const trueBullet = parseInt(Math.random() * 5.5) // Sorting a random number to insert the real bullet in the vector position, note something, the 5.5 number is to make harder to the true bullet be the first one
+                const trueBullet = parseInt((Math.random() * 5.499) + 0.5) // Sorting a random number to insert the real bullet in the vector position, note something, the 5.5 number is to make harder to the true bullet be the first one
 
                 // Inserting the true bullet into the vector
 
